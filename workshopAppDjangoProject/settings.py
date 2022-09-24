@@ -82,11 +82,11 @@ WSGI_APPLICATION = 'workshopAppDjangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
+        'NAME': 'workshopProject',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'USER': 'Fardin',
-        'PASSWORD': '450909'
+        'USER': 'iftekharulalam',
+        'PASSWORD': '01521439838As'
     }
 }
 
