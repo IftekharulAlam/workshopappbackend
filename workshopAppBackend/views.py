@@ -54,6 +54,7 @@ def createWorkshop(request):
 
 @csrf_exempt
 def removeWorkshop(request):
+    
     return HttpResponse("hello")
 
 
