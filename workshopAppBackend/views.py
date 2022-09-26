@@ -11,8 +11,8 @@ from django.http import FileResponse, HttpResponse, JsonResponse
 def getworkshopList(request):
     if request.method == 'GET':
         with connection.cursor() as cursor_1:
-            cursor_1.execute(
-                "select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop")
+            # cursor_1.execute("select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop where status='Enable'")
+            cursor_1.execute("select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop")
             row1 = cursor_1.fetchall()
         if row1 == None:
             json_data = {"message": "Wrong"}
@@ -43,7 +43,7 @@ def createWorkshop(request):
         WorkshopPlace = request.POST.get("WorkshopPlace", False)
         InstructorName = request.POST.get("InstructorName", False)
         InstructorPhone = request.POST.get("InstructorPhone", False)
-        status = "Active"
+        status = "Enable"
 
         with connection.cursor() as cursor_1:
             cursor_1.execute("INSERT INTO workshop(Name,Description,Time,Place,InstructorName,InstructorPhone, status) VALUES ('"+str(
@@ -54,9 +54,14 @@ def createWorkshop(request):
 
 @csrf_exempt
 def removeWorkshop(request):
-    
-    return HttpResponse("hello")
+    if request.method == 'POST':
+        WorkshopID = request.POST.get("WorkshopID", False)
 
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("UPDATE workshop SET status='Disable' WHERE ID='"+str(WorkshopID) + "'")
+            connection.commit()
+    return HttpResponse("Hello, world. You're at the polls index.")
+    
 
 @csrf_exempt
 def updateWorkshop(request):
