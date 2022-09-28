@@ -5,5 +5,7 @@ urlpatterns = [
     path('getworkshopList', views.getworkshopList, name='getworkshopList'),
     path('updateWorkshop', views.updateWorkshop, name='updateWorkshop'),
     path('removeWorkshop', views.removeWorkshop, name='removeWorkshop'),
+    path('registerUser', views.registerUser, name='registerUser'),
+    path('login', views.login, name='login'),
     
 ]
