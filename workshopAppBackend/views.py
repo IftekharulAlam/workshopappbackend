@@ -119,7 +119,26 @@ def login(request):
             data = {"message": "Wrong"}
         else:
             data = {"message": "Success"}
-                # print(data)
+            # print(data)
 
         return JsonResponse(data)
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
+@csrf_exempt
+def getProfileInfo(request):
+    if request.method == 'POST':
+        id = request.POST.get("ID", False)
+        type = request.POST.get("type", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute(
+                "select Name, ID, Email, Phone, Type from user where ID='"+str(id) + "'")
+            row1 = cursor_1.fetchall()
+        result = []
+        keys = ('Name', 'ID', 'Email', 'Phone',
+                'Type')
+        for row in row1:
+            result.append(dict(zip(keys, row)))
+        json_data = json.dumps(result)
+        # print(json_data)
+        return HttpResponse(json_data, content_type="application/json")

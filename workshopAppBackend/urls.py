@@ -7,5 +7,6 @@ urlpatterns = [
     path('removeWorkshop', views.removeWorkshop, name='removeWorkshop'),
     path('registerUser', views.registerUser, name='registerUser'),
     path('login', views.login, name='login'),
-    
+    path('getProfileInfo', views.getProfileInfo, name='getProfileInfo'),
+
 ]
