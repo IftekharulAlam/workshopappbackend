@@ -142,3 +142,19 @@ def getProfileInfo(request):
         json_data = json.dumps(result)
         # print(json_data)
         return HttpResponse(json_data, content_type="application/json")
+
+@csrf_exempt
+def applyForWorkshop(request):
+     if request.method == 'POST':
+        Workshop_ID = request.POST.get("Workshop_ID", False)
+        Workshop_Name = request.POST.get("Workshop_Name", False)
+        Student_ID = request.POST.get("Student_ID", False)
+        with connection.cursor() as cursor_1:
+            cursor_1.execute("INSERT INTO applicanttable(WorkshopID,WorkshopName,StudentID) VALUES ('"+str(
+                Workshop_ID) + "' ,'"+str(Workshop_Name) + "','"+str(Student_ID) + "', )")
+            connection.commit()
+        return HttpResponse("")
+
+
+
+    
