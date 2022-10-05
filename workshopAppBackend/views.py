@@ -151,7 +151,7 @@ def applyForWorkshop(request):
         Student_ID = request.POST.get("Student_ID", False)
         with connection.cursor() as cursor_1:
             cursor_1.execute("INSERT INTO applicanttable(WorkshopID,WorkshopName,StudentID) VALUES ('"+str(
-                Workshop_ID) + "' ,'"+str(Workshop_Name) + "','"+str(Student_ID) + "', )")
+                Workshop_ID) + "' ,'"+str(Workshop_Name) + "','"+str(Student_ID) + "')")
             connection.commit()
         return HttpResponse("")
 
