@@ -38,6 +38,53 @@ def getworkshopList(request):
 
 
 @csrf_exempt
+def getworkshopListmy(request):
+    if request.method == 'POST':
+        id = request.POST.get("ID", False)
+        type = request.POST.get("type", False)
+        if type == "Admin":
+            with connection.cursor() as cursor_1:
+                # cursor_1.execute("select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop where status='Enable'")
+                cursor_1.execute(
+                    "select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop")
+                row1 = cursor_1.fetchall()
+            result = []
+            keys = ('ID', 'Name', 'Description', 'Time', 'Place',
+                    'InstructorName', 'InstructorPhone', 'status')
+            for row in row1:
+                result.append(dict(zip(keys, row)))
+            json_data = json.dumps(result)
+            # print(json_data)
+            return HttpResponse(json_data, content_type="application/json")
+        if type == "Student":
+            with connection.cursor() as cursor_1:
+                # cursor_1.execute("select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop where status='Enable'")
+                cursor_1.execute(
+                    "select ID, Name, Description, Time, Place, InstructorName,InstructorPhone from workshop")
+                row1 = cursor_1.fetchall()
+            with connection.cursor() as cursor_2:
+                # cursor_1.execute("select ID, Name, Description, Time, Place, InstructorName,InstructorPhone,status from workshop where status='Enable'")
+                cursor_2.execute(
+                    "select WorkshopID from applicanttable where StudentID = '"+str(id) + "'")
+                row2 = cursor_2.fetchall()
+            result = []
+            keys = ('ID', 'Name', 'Description', 'Time', 'Place',
+                    'InstructorName', 'InstructorPhone', 'AppStatus')
+            for r in row1:
+                y = list(r)
+                for r1 in row2:
+                    if r1[0] == r[0]:
+                        y.append('Yes')
+                    # else:
+                    #     y.append('Not')
+                r = tuple(y)
+                result.append(dict(zip(keys, r)))
+            json_data = json.dumps(result)
+            return HttpResponse(json_data, content_type="application/json")
+    return HttpResponse("")
+
+
+@csrf_exempt
 def createWorkshop(request):
     if request.method == 'POST':
         WorkshopName = request.POST.get("WorkshopName", False)
@@ -143,9 +190,10 @@ def getProfileInfo(request):
         # print(json_data)
         return HttpResponse(json_data, content_type="application/json")
 
+
 @csrf_exempt
 def applyForWorkshop(request):
-     if request.method == 'POST':
+    if request.method == 'POST':
         Workshop_ID = request.POST.get("Workshop_ID", False)
         Workshop_Name = request.POST.get("Workshop_Name", False)
         Student_ID = request.POST.get("Student_ID", False)
@@ -154,7 +202,3 @@ def applyForWorkshop(request):
                 Workshop_ID) + "' ,'"+str(Workshop_Name) + "','"+str(Student_ID) + "')")
             connection.commit()
         return HttpResponse("")
-
-
-
-    
