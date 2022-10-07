@@ -124,10 +124,11 @@ def updateWorkshop(request):
         WorkshopPlace = request.POST.get("WorkshopPlace", False)
         InstructorName = request.POST.get("InstructorName", False)
         InstructorPhone = request.POST.get("InstructorPhone", False)
+        status = request.POST.get("status", False)
 
         with connection.cursor() as cursor_1:
             cursor_1.execute("UPDATE workshop SET Name='" + str(WorkshopName) + "', Description='" + str(WorkshopDescription) + "', Time='" + str(WorkshopTime) + "', Place='" +
-                             str(WorkshopPlace) + "', InstructorName='" + str(InstructorName) + "', InstructorPhone='" + str(InstructorPhone) + "' where ID='" + str(WorkshopID) + "'")
+                             str(WorkshopPlace) + "', InstructorName='" + str(InstructorName) + "', InstructorPhone='" + str(InstructorPhone) + "', status='" + str(status) + "' where ID='" + str(WorkshopID) + "'")
             connection.commit()
     return HttpResponse("")
 
